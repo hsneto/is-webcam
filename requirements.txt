@@ -1,0 +1,6 @@
+is-msgs==1.1.7
+is-wire==1.1.2 
+numpy==1.15.2
+opencv-python==3.4.3.18
+protobuf==3.6.0
+python-dateutil==2.7.3 
