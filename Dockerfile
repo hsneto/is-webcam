@@ -15,5 +15,5 @@ RUN apt-get install -y libgtk2.0-dev
 
 ADD ./gateway /gateway/
 
-CMD python3 stream.py
+CMD /bin/bash
 # CMD [python3 stream.py]

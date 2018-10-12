@@ -17,19 +17,24 @@ parser = argparse.ArgumentParser(
     description='Utility to capture a sequence of images from multiples cameras'
 )
 parser.add_argument(
+    '--id', '-i', type=int, required=False, help='Camera ID', default=0)
+parser.add_argument(
+    '--device', '-d', type=int, required=False, help='Camera device. 0 for /dev/video0', default=0)
+parser.add_argument(
     '--fps', '-f', type=int, required=False, help='FPS', default=10)
 parser.add_argument(
     '--uri', '-u', type=str, required=False, help='broker_uri', default='amqp://localhost:5672')
 args = parser.parse_args()
 
+device = args.device
 fps = args.fps
 broker_uri = args.uri
 
-cap = VideoCapture(0)
+cap = VideoCapture(device)
 if cap.isOpened():
-    log.info('Connected to default camera')
+    log.info('Connected to device: /dev/video{}'.format(device))
 else:
-    log.error('Coudn\'t find the default camera')
+    log.error('Coudn\'t find device: /dev/video{}'.format(device))
     exit()
 
 log.info('Camera FPS set to {}'.format(fps))
@@ -44,7 +49,7 @@ while True:
     ret, frame = cap.read()
 
     msg = Message()
-    msg.topic = 'CameraGateway.5.Frame'
+    msg.topic = 'CameraGateway.{}.Frame'.format(args.id)
     msg.pack(get_pb_image(frame))
     channel.publish(msg)
 
