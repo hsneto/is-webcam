@@ -1,5 +1,13 @@
 # is-webcam
 
+## Prepare environment
+
+In order to send/receive messages an amqp broker is necessary, to create one simply run:
+
+```sh
+docker container run -d --rm -p 5672:5672 -p 15672:15672 rabbitmq:3.7.6-management
+```
+
 ## Publishing the default camera:
 
 ```sh
